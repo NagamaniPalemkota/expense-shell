@@ -43,7 +43,7 @@ VALIDATE $? "Starting mysql server"
 #below code will be useful for idempotent nature
 mysql -h db.muvva.online -uroot -pExpenseApp@1 -e 'show databases;' &>>$LOGFILE
 
-if [ S? -ne 0 ]
+if [ $? -ne 0 ]
 then
     mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
     VALIDATE $? "setting up root password"
