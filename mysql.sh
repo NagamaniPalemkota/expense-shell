@@ -9,6 +9,8 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
+echo "enter mysql password"
+read -s mysql_root_password
 
 VALIDATE(){
     if [ $1 -ne 0 ]
@@ -41,11 +43,11 @@ VALIDATE $? "Starting mysql server"
 # VALIDATE $? "setting up root password"
 
 #below code will be useful for idempotent nature
-mysql -h db.muvva.online -uroot -pExpenseApp@1 -e 'show databases;' &>>$LOGFILE
+mysql -h db.muvva.online -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGFILE
 
 if [ $? -ne 0 ]
 then
-    mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
+    mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$LOGFILE
     VALIDATE $? "setting up root password"
 else
     echo -e "mysql root pwd is already setup .. $Y SKIPPING $N"
