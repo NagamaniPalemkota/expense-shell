@@ -10,7 +10,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 echo "Enter DB password"
-read -s mysql-server_root_password
+read -s mysql_root_password
 
 VALIDATE(){
     if [ $1 -ne 0 ]
@@ -78,7 +78,7 @@ VALIDATE $? "Enabled backend service"
 dnf install mysql -y &>>$LOGFILE
 VALIDATE $? "Installing mysql client"
 
-mysql -h db.muvva.online -uroot -p${mysql-server_root_password} < /app/schema/backend.sql
+mysql -h db.muvva.online -uroot -p${mysql_root_password} < /app/schema/backend.sql
 VALIDATE $? "Schema loading"
 
 systemctl restart backend &>>$LOGFILE
