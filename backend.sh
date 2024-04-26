@@ -49,5 +49,4 @@ else
     echo -e "$Y user expense already present .. SKIPPING $N"
 fi
 
-VALIDATE $? "Creating a user expense"
 
