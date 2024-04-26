@@ -11,7 +11,6 @@ Y="\e[33m"
 N="\e[0m"
 
 VALIDATE(){
-
     if [ $1 -ne 0 ]
     then
         echo -e "$2 is $R failure $N"
@@ -20,6 +19,7 @@ VALIDATE(){
         echo -e "$2 is $G success $N"
     fi
 }
+
 if [ $USERID -ne 0 ]
 then
     echo "Please run with super user access"
