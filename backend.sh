@@ -9,7 +9,8 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-
+echo "Enter DB password"
+read -s mysql-server_root_password
 
 VALIDATE(){
     if [ $1 -ne 0 ]
@@ -62,3 +63,23 @@ VALIDATE $? "Extracted backend code"
 npm install
 VALIDATE $? "Installing dependencies"
 
+cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service
+VALIDATE $? "Copied backend service"
+
+systemctl daemon-reload &>>$LOGFILE
+VALIDATE $? "Daemon reloading backend service"
+
+systemctl start backend &>>$LOGFILE
+VALIDATE $? "Started backend service"
+
+systemctl enable backend &>>$LOGFILE
+VALIDATE $? "Enabled backend service"
+
+dnf install mysql -y &>>$LOGFILE
+VALIDATE $? "Installing mysql client"
+
+mysql -h db.muvva.online -uroot -p${mysql-server_root_password} < /app/schema/backend.sql
+VALIDATE $? "Schema loading"
+
+systemctl restart backend &>>$LOGFILE
+VALIDATE $? "Resarting backend"
